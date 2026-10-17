@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Dashboard{% endblock %} · College Placement System</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"><script defer src="{{ url_for('static', filename='js/script.js') }}"></script></head>
+<body class="app-shell"><aside class="sidebar">
+<a class="sidebar-brand" href="{{ url_for('index') }}"><span class="brand-mark">🎓</span><span><b>College Placement</b><small>Analysis System</small></span></a>
+<div class="side-caption">WORKSPACE</div><nav class="side-nav" aria-label="Main navigation">
+<a class="{{ 'active' if request.endpoint == 'index' }}" href="{{ url_for('index') }}"><span>▦</span>Dashboard</a>
+<a class="{{ 'active' if request.endpoint == 'students' }}" href="{{ url_for('students') }}"><span>♙</span>Students</a>
+<a class="{{ 'active' if request.endpoint in ['add_student','edit_student'] }}" href="{{ url_for('add_student') }}"><span>⊕</span>Add Student</a>
+<a class="{{ 'active' if request.endpoint == 'analytics' }}" href="{{ url_for('analytics') }}"><span>▥</span>Analytics</a>
+<a href="{{ url_for('export_students') }}"><span>▤</span>Reports / CSV</a><a class="{{ 'active' if request.endpoint == 'about' }}" href="{{ url_for('about') }}"><span>ⓘ</span>About Project</a></nav>
+<div class="sidebar-bottom"><div class="sidebar-bottom-icon">✦</div><b>Placement insights</b><p>Keep student records organised and make data-led decisions.</p><a href="{{ url_for('analytics') }}">Explore analytics →</a></div>
+<div class="sidebar-foot">BCA PROJECT · {{ current_year }}</div></aside>
+<div class="main-shell"><header class="topbar"><button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+<div class="topbar-breadcrumb"><span class="breadcrumb-home">⌂</span><span>/</span><span>{% block breadcrumb %}Dashboard{% endblock %}</span></div>
+<div class="topbar-right"><span class="year-pill">▦ &nbsp; {{ current_year }} <small>Current view</small></span><div class="admin-chip"><span class="avatar">CP</span><span><b>Placement Office</b><small>Administrator view</small></span></div></div></header>
+<main class="container">{% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="flash-stack" role="status">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}{% block content %}{% endblock %}</main>
+<footer class="footer">College Placement Analysis System <span>·</span> Educational project · {{ current_year }}</footer></div></body></html>

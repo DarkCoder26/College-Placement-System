@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% block title %}{{ page_title }}{% endblock %}{% block content %}
+<section class="page-heading"><div><p class="eyebrow">STUDENT RECORD</p><h1>{{ page_title }}</h1><p class="muted">Fields marked * are required. CGPA is on a 0–10 scale; package is in LPA.</p></div><a class="button secondary" href="{{ url_for('students') }}">← Back to students</a></section>
+<form class="form-panel" method="post" novalidate><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="form-grid">
+<label>Roll number *<input name="roll_number" maxlength="30" required value="{{ student.get('roll_number','') }}" placeholder="e.g. BCA2025001"></label>
+<label>Full name *<input name="full_name" maxlength="100" required value="{{ student.get('full_name','') }}" placeholder="Student full name"></label>
+<label>Department *<input name="department" maxlength="80" required value="{{ student.get('department','') }}" placeholder="e.g. Computer Applications"></label>
+<label>Graduation year *<input type="number" name="graduation_year" min="2000" max="2100" required value="{{ student.get('graduation_year','') }}" placeholder="2026"></label>
+<label>CGPA *<input type="number" name="cgpa" min="0" max="10" step="0.01" required value="{{ student.get('cgpa','') }}" placeholder="0.00–10.00"></label>
+<label>Placement status *<select name="placement_status" id="placement-status" required><option value="">Select status</option><option value="Placed" {{ 'selected' if student.get('placement_status') == 'Placed' }}>Placed</option><option value="Not Placed" {{ 'selected' if student.get('placement_status') == 'Not Placed' }}>Not Placed</option></select></label>
+<label class="placement-field">Company name <input name="company_name" maxlength="100" value="{{ student.get('company_name','') }}" placeholder="Required when placed"></label>
+<label class="placement-field">Job role <input name="job_role" maxlength="100" value="{{ student.get('job_role','') }}" placeholder="Required when placed"></label>
+<label class="placement-field">Package (LPA) <input type="number" name="package_lpa" min="0" step="0.01" value="{{ student.get('package_lpa', '') if student.get('package_lpa') is not none else '' }}" placeholder="e.g. 5.50"></label>
+</div><p class="form-hint">For “Not Placed”, company, job role, and package are automatically stored as blank, blank, and zero.</p>
+<div class="form-actions"><button class="button primary" type="submit">{{ 'Save changes' if student_id is defined else 'Save student' }}</button><a class="button ghost" href="{{ url_for('students') }}">Cancel</a></div>
+</form>{% endblock %}
